@@ -1,0 +1,2 @@
+com\keycloak\auth\KonneqtAuthenticator.class
+com\keycloak\auth\KonneqtAuthenticatorFactory.class
