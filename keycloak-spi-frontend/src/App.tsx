@@ -10,7 +10,7 @@ const Login = () => {
 
   const [email, setEmail] = React.useState("");
 
-  const login = (email: string) => {
+  const handleLogin  = (email: string) => {
     // Construct the Keycloak authorization URL
     const authUrl = new URL("http://localhost:8080/realms/test/protocol/openid-connect/auth");
     
@@ -34,7 +34,7 @@ const Login = () => {
     <div>
       <h1>Welcome</h1>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <button onClick={() => login(email)}>Login</button>
+      <button onClick={() => handleLogin (email)}>Login</button>
     </div>
   );
 };
