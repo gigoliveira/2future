@@ -15,6 +15,11 @@ export default defineConfig({
           "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         },
       },
+      '/keycloak': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/keycloak/, ''),
+      },
     },
   },
 });

@@ -4,8 +4,9 @@ interface User {
     email?: string;
 }
 
-const Profile: React.FC = () => {
+const Profile = () => {
     const user: User = JSON.parse(localStorage.getItem("user") || "{}");
+    console.log("Access Token:", window.location.search);
 
     return (
         <div className="p-4">

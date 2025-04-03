@@ -5,22 +5,47 @@ const Callback = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Extract code from URL
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
 
         if (code) {
-            // Exchange code for token (you'll need to implement this)
-            exchangeCodeForToken(code).then(() => {
-                navigate("/profile");
-            });
+            exchangeCodeForToken(code)
+                .then(() => navigate("/profile"))
+                .catch(() => navigate("/login"));
         } else {
             navigate("/login");
         }
     }, []);
 
     const exchangeCodeForToken = async (code: string) => {
-        // Implement token exchange logic here
+        try {
+            const response = await fetch("/keycloak/realms/test/protocol/openid-connect/token", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: new URLSearchParams({
+                    client_id: "konneqt-client",
+                    grant_type: "authorization_code",
+                    code,
+                    redirect_uri: "http://localhost:5173/callback",
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.access_token) {
+                console.log("Access Token:", data.access_token);
+                localStorage.setItem("access_token", data.access_token); // ✅ Store token in localStorage
+            } else {
+                throw new Error("Failed to retrieve access token");
+            }
+        } catch (error) {
+            console.error("Token exchange error:", error);
+        }
     };
 
     return <div>Processing authentication...</div>;
