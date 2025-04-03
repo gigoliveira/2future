@@ -7,6 +7,7 @@ docker run -d --name postgres-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=muda
 
 docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost quay.io/keycloak/keycloak:26.1.4 start-dev
 
+26.1.4
 
 java
 mvn archetype:generate -DgroupId=com.keycloak -DartifactId=custom-auth-spi -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
@@ -35,5 +36,11 @@ npm config set cache "%USERPROFILE%\AppData\Local\npm-cache"
 comando para instalar a aplicação react
 npx create-react-app keycloak-spi-frontend --template typescript
 
-npm install axios react-router-dom@6 @types/react-router-dom
+instalar rotas
+npm install react-router-dom
+
+
+comando para buildar aplicação React
+npm install
+
 

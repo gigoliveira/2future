@@ -12,44 +12,40 @@ import java.util.UUID;
 
 public class KonneqtAuthenticator implements Authenticator {
 
-    private static final String KONNEQT_TOKEN_HEADER = "X-Konneqt-Token";
-    private static final String REALM_NAME = "test";
+    private static final String KONNEQT_TOKEN_PARAM = "konneqt_token";
 
     @Override
     public void authenticate(AuthenticationFlowContext context) {
-        String token = context.getHttpRequest().getHttpHeaders().getHeaderString(KONNEQT_TOKEN_HEADER);
+        // Try to get token from query parameter first
+        String token = context.getUriInfo().getQueryParameters().getFirst(KONNEQT_TOKEN_PARAM);
         
+        // Fallback to header if not in query params
+        if (token == null) {
+            token = context.getHttpRequest().getHttpHeaders().getHeaderString("X-Konneqt-Token");
+        }
+
         if (token == null || token.isEmpty()) {
-            Response challenge = context.form()
-                    .setError("Missing token")
-                    .createForm("error.ftl");
-            context.failureChallenge(AuthenticationFlowError.INVALID_CREDENTIALS, challenge);
+            Response errorResponse = Response.status(Response.Status.BAD_REQUEST)
+                .entity("{\"error\": \"missing_token\", \"error_description\": \"Konneqt token is required\"}")
+                .build();
+            context.failure(AuthenticationFlowError.INVALID_CREDENTIALS, errorResponse);
             return;
         }
 
-        // In a real implementation, you would validate the token properly
-        String email = token; // Assuming token is the email for this example
-        
-        RealmModel realm = context.getSession().realms().getRealmByName(REALM_NAME);
-        if (realm == null) {
-            context.failure(AuthenticationFlowError.INVALID_USER);
-            return;
-        }
-
-        UserModel user = context.getSession().users().getUserByEmail(realm, email);
+        // Rest of your authentication logic...
+        RealmModel realm = context.getRealm();
+        UserModel user = context.getSession().users().getUserByEmail(realm, token);
         
         if (user == null) {
-            // Auto-create user if not exists
             user = context.getSession().users().addUser(realm, UUID.randomUUID().toString());
-            user.setEmail(email);
+            user.setEmail(token);
             user.setEnabled(true);
-            user.setEmailVerified(true);
         }
 
         context.setUser(user);
         context.success();
     }
-
+    
     @Override
     public void action(AuthenticationFlowContext context) {
     }
