@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Callback = () => {
     const navigate = useNavigate();
-    const [isProcessing, setIsProcessing] = useState(false);
+    const hasRun = useRef(false); // ✅ Prevent duplicate execution
 
     useEffect(() => {
-        if (sessionStorage.getItem("token_exchanged")) return;
-    
-        sessionStorage.setItem("token_exchanged", "true");
-    
+        if (hasRun.current) return; // ✅ Stop second call
+        hasRun.current = true; // ✅ Mark execution
+
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
-    
+
         if (code) {
             exchangeCodeForToken(code)
                 .then(() => navigate("/profile"))
@@ -24,7 +23,7 @@ const Callback = () => {
 
     const exchangeCodeForToken = async (code: string) => {
         try {
-            const response = await fetch("http://localhost:8080/realms/test/protocol/openid-connect/token", {
+            const response = await fetch("/keycloak/realms/test/protocol/openid-connect/token", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",

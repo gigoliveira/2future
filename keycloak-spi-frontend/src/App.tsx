@@ -3,11 +3,14 @@ import Callback from "./Callback"; // Make sure Callback.tsx exists
 import Profile from "./components/Profile"; // Make sure Callback.tsx exists
 
 import CONFIG from "./config/config";
+import React from "react";
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const login = () => {
+  const [email, setEmail] = React.useState("");
+
+  const login = (email: string) => {
     // Construct the Keycloak authorization URL
     const authUrl = new URL("http://localhost:8080/realms/test/protocol/openid-connect/auth");
     
@@ -18,16 +21,20 @@ const Login = () => {
     authUrl.searchParams.append("scope", "openid");
     
     // Add custom token
-    authUrl.searchParams.append("konneqt_token", CONFIG.TOKEN);
+    authUrl.searchParams.append("konneqt_token", `${email}`);
     
     // Redirect to Keycloak
     window.location.href = authUrl.toString();
+
+    localStorage.setItem("access_token", "");
+
   };
 
   return (
     <div>
       <h1>Welcome</h1>
-      <button onClick={login}>Login</button>
+      <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      <button onClick={() => login(email)}>Login</button>
     </div>
   );
 };
@@ -44,3 +51,4 @@ const App = () => {
 };
 
 export default App;
+
