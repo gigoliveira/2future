@@ -1,13 +1,13 @@
-package com.api.keycloakadmin.keycloak_admin_api;
+package com.api.keycloak;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KeycloakAdminApiApplication {
+public class KeycloakAdminServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(KeycloakAdminApiApplication.class, args);
+		SpringApplication.run(KeycloakAdminServiceApplication.class, args);
 	}
 
 }

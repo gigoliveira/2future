@@ -7,7 +7,27 @@ docker run -d --name postgres-db -e POSTGRES_USER=user -e POSTGRES_PASSWORD=muda
 
 docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost quay.io/keycloak/keycloak:26.1.4 start-dev
 
+
+
+docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost -e KC_PROXY=edge -e KC_HTTP_CORS=true -e KC_HTTP_CORS_ALLOWED_ORIGINS="http://localhost:5173" -e KC_HTTP_CORS_ALLOWED_METHODS="GET,POST,OPTIONS,PUT,DELETE" -e KC_HTTP_CORS_ALLOWED_HEADERS="Authorization,Content-Type,Accept,X-Konneqt-Token" quay.io/keycloak/keycloak:26.1.4 start-dev
+
+
+docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost -e KC_PROXY=edge -e KC_HTTP_CORS=true -e KC_HTTP_CORS_ORIGIN="*" -e KC_HTTP_CORS_ALLOWED_ORIGINS="http://localhost:5173" -e KC_HTTP_CORS_ALLOWED_METHODS="GET,POST,OPTIONS,PUT,DELETE" -e KC_HTTP_CORS_ALLOWED_HEADERS="Authorization,Content-Type,Accept,X-Konneqt-Token" quay.io/keycloak/keycloak:26.1.4 start-dev
+
+
+docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost -e KC_HTTP_CORS=true -e KC_PROXY=edge -e KC_HTTP_CORS_ALLOWED_ORIGINS="*" -e KC_HTTP_CORS_ALLOWED_METHODS="GET,POST,OPTIONS,PUT,DELETE" -e KC_HTTP_CORS_ALLOWED_HEADERS="Authorization,Content-Type,Accept,X-Konneqt-Token" quay.io/keycloak/keycloak:26.1.4 start-dev
+
+
 26.1.4
+
+comando para criar aplicação java com spring boot no vscode
+spring initializr
+
+comando java para buildar projeto
+mvn clean install  
+
+rodar api
+mvn clean spring-boot:run
 
 java
 mvn archetype:generate -DgroupId=com.keycloak -DartifactId=custom-auth-spi -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
@@ -16,13 +36,15 @@ comando para ver id das imagens Docker
 docker ps
 
 comando para ver pastas de uma imagem Docker
-docker exec ad51197640c9 ls -l /opt/keycloak
+docker exec 32d3952e5cab ls -l /opt/keycloak
 
 comando para copiar arquivo para dentro de uma imagem Docker com ID da imagem
-docker cp target\custom-auth-spi-1.0-SNAPSHOT.jar ad51197640c9:/opt/keycloak/providers/
+docker cp target\custom-auth-spi-1.0-SNAPSHOT.jar 19caeb649b8b:/opt/keycloak/providers/
+
+docker stop keycloak
 
 após copiar reestartar o keycloak
-docker restart ad51197640c9
+docker restart 19caeb649b8b
 
 
 
@@ -44,3 +66,5 @@ comando para buildar aplicação React
 npm install
 
 
+
+docker exec -it keycloak /opt/keycloak/bin/kcadm.sh update realms/test -s 'cors=true' -s 'corsAllowedOrigins=["http://localhost:5173"]' -s 'corsAllowedMethods=["POST","GET","OPTIONS"]' -s 'corsAllowedHeaders=["X-Konneqt-Token","Content-Type"]'-s 'corsAllowCredentials=true'
