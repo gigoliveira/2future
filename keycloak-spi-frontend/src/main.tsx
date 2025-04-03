@@ -9,7 +9,6 @@ import Logout from "./components/Logout"; // 👈 Import the new Logout componen
 import Callback from "./Callback";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
@@ -20,5 +19,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
 );

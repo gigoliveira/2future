@@ -1,16 +1,14 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
-import Callback from "./Callback"; // Make sure Callback.tsx exists
-import Profile from "./components/Profile"; // Make sure Callback.tsx exists
-import { Authenticator } from "./auth/authenticator";
-
-import CONFIG from "./config/config";
+import Callback from "./Callback";
+import Profile from "./components/Profile";
+import { Authenticator } from "./auth/Authenticator";
 import React from "react";
+
+const authenticator = new Authenticator(); // ✅ Move outside to avoid re-instantiation
 
 const Login = () => {
   const navigate = useNavigate();
-
   const [email, setEmail] = React.useState("");
-    const authenticator = new Authenticator();
 
   const handleLogin = () => {
     const authUrl = authenticator.getAuthUrl(email);
@@ -21,7 +19,7 @@ const Login = () => {
     <div>
       <h1>Welcome</h1>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <button onClick={() => handleLogin ()}>Login</button>
+      <button onClick={() => handleLogin()}>Login</button>
     </div>
   );
 };
@@ -32,10 +30,8 @@ const App = () => {
       <Route path="/" element={<Login />} />
       <Route path="/callback" element={<Callback />} />
       <Route path="/profile" element={<Profile />} />
-
     </Routes>
   );
 };
 
 export default App;
-
