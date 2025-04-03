@@ -1,20 +1,14 @@
 import React, { useState } from "react";
+import { Authenticator } from "../auth/authenticator";
 
 const Login = () => {
     const [email, setEmail] = useState("");
+    const authenticator = new Authenticator();
 
     const handleLogin = () => {
-        const authUrl = new URL("http://localhost:8080/realms/test/protocol/openid-connect/auth");
-
-        authUrl.searchParams.append("client_id", "konneqt-client");
-        authUrl.searchParams.append("redirect_uri", "http://localhost:5173/callback");
-        authUrl.searchParams.append("response_type", "code");
-        authUrl.searchParams.append("scope", "openid");
-        authUrl.searchParams.append("konneqt_token", email);
-
-        window.location.href = authUrl.toString();
+        const authUrl = authenticator.getAuthUrl(email);
+        window.location.href = authUrl;
     };
-
     return (
         <div className="flex items-center justify-center h-screen">
             <div className="text-center">
