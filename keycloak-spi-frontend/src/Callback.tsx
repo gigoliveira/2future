@@ -39,7 +39,7 @@ const Callback = () => {
             const data = await response.json();
             if (data.access_token) {
                 localStorage.setItem("access_token", data.access_token);
-                console.log("Access Token:", data.access_token);
+                console.log("Access Token:", data);
             } else {
                 throw new Error("Failed to retrieve access token");
             }
