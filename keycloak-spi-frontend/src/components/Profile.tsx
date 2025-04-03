@@ -6,8 +6,6 @@ interface User {
 
 const Profile = () => {
     const user: User = JSON.parse(localStorage.getItem("user") || "{}");
-    console.log("Access Token:", window.location.search);
-
     return (
         <div className="p-4">
             <h1 className="text-2xl">Profile</h1>

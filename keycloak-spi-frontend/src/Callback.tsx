@@ -1,13 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Callback = () => {
     const navigate = useNavigate();
+    const [isProcessing, setIsProcessing] = useState(false);
 
     useEffect(() => {
+        if (sessionStorage.getItem("token_exchanged")) return;
+    
+        sessionStorage.setItem("token_exchanged", "true");
+    
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
-
+    
         if (code) {
             exchangeCodeForToken(code)
                 .then(() => navigate("/profile"))
@@ -19,7 +24,7 @@ const Callback = () => {
 
     const exchangeCodeForToken = async (code: string) => {
         try {
-            const response = await fetch("/keycloak/realms/test/protocol/openid-connect/token", {
+            const response = await fetch("http://localhost:8080/realms/test/protocol/openid-connect/token", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -32,14 +37,10 @@ const Callback = () => {
                 }),
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-
             const data = await response.json();
             if (data.access_token) {
+                localStorage.setItem("access_token", data.access_token);
                 console.log("Access Token:", data.access_token);
-                localStorage.setItem("access_token", data.access_token); // ✅ Store token in localStorage
             } else {
                 throw new Error("Failed to retrieve access token");
             }
