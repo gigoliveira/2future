@@ -9,13 +9,10 @@ docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_A
 
 
 
-docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost -e KC_PROXY=edge -e KC_HTTP_CORS=true -e KC_HTTP_CORS_ALLOWED_ORIGINS="http://localhost:5173" -e KC_HTTP_CORS_ALLOWED_METHODS="GET,POST,OPTIONS,PUT,DELETE" -e KC_HTTP_CORS_ALLOWED_HEADERS="Authorization,Content-Type,Accept,X-Konneqt-Token" quay.io/keycloak/keycloak:26.1.4 start-dev
-
 
 docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost -e KC_PROXY=edge -e KC_HTTP_CORS=true -e KC_HTTP_CORS_ORIGIN="*" -e KC_HTTP_CORS_ALLOWED_ORIGINS="http://localhost:5173" -e KC_HTTP_CORS_ALLOWED_METHODS="GET,POST,OPTIONS,PUT,DELETE" -e KC_HTTP_CORS_ALLOWED_HEADERS="Authorization,Content-Type,Accept,X-Konneqt-Token" quay.io/keycloak/keycloak:26.1.4 start-dev
 
 
-docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin -e KC_DB=postgres -e KC_DB_URL=jdbc:postgresql://host.docker.internal:5432/keycloakDB -e KC_DB_USERNAME=user -e KC_DB_PASSWORD=mudar1234 -e KC_HOSTNAME=localhost -e KC_HTTP_CORS=true -e KC_PROXY=edge -e KC_HTTP_CORS_ALLOWED_ORIGINS="*" -e KC_HTTP_CORS_ALLOWED_METHODS="GET,POST,OPTIONS,PUT,DELETE" -e KC_HTTP_CORS_ALLOWED_HEADERS="Authorization,Content-Type,Accept,X-Konneqt-Token" quay.io/keycloak/keycloak:26.1.4 start-dev
 
 
 26.1.4
@@ -23,10 +20,15 @@ docker run -d --name keycloak -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_A
 comando para criar aplicação java com spring boot no vscode
 spring initializr
 
+clean java Project
+mvnw clean package
+
 comando java para buildar projeto
 mvn clean install  
 
 rodar api
+mvn clean spring-boot:stop
+
 mvn clean spring-boot:run
 
 java
@@ -66,5 +68,15 @@ comando para buildar aplicação React
 npm install
 
 
+remover composer Docker
+docker-compose down -v
+
+subir composer Docker
+docker compose up -d
+
 
 docker exec -it keycloak /opt/keycloak/bin/kcadm.sh update realms/test -s 'cors=true' -s 'corsAllowedOrigins=["http://localhost:5173"]' -s 'corsAllowedMethods=["POST","GET","OPTIONS"]' -s 'corsAllowedHeaders=["X-Konneqt-Token","Content-Type"]'-s 'corsAllowCredentials=true'
+
+
+
+docker exec -t 5c651dcc7347 pg_dump -U user -d keycloakDB > database_dump.sql

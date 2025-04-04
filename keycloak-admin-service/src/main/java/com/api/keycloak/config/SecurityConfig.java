@@ -22,7 +22,6 @@ public class SecurityConfig {
 
     private static final String JWKS_URI = "http://localhost:8080/realms/test/protocol/openid-connect/certs";
 
-    // Configure allowed origins (update with your React app's URL)
     private static final List<String> ALLOWED_ORIGINS = Arrays.asList(
             "http://localhost:5173");
 
