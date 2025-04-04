@@ -15,18 +15,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @RequestMapping("/api/user")
 public class UserController {
 
-    @GetMapping("/public")
-    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<String> publicEndpoint() {
-        return ResponseEntity.ok(" Endpoint público: Qualquer um pode acessar!");
-    }
-
-    @GetMapping("/admin")
-    @PreAuthorize("hasRole('admin')")
-    public ResponseEntity<String> adminEndpoint() {
-        return ResponseEntity.ok("🔐 Endpoint privado: Apenas admins podem acessar!");
-    }
-
     @GetMapping("/profile")
     @PreAuthorize("isAuthenticated()")
     public UserProfileDto getUserProfile(@AuthenticationPrincipal Jwt jwt) {

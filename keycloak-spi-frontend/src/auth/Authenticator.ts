@@ -3,7 +3,7 @@ class Authenticator {
     private redirectUri = "http://localhost:5173/callback";
     private responseType = "code";
     private scope = "openid";
-    private authUrl = new URL("http://localhost:8080/realms/test/protocol/openid-connect/auth");
+    private authUrl = new URL("http://127.0.0.1:8080/realms/test/protocol/openid-connect/auth");
 
     public getAuthUrl(email: string): string {
         this.authUrl.searchParams.append("client_id", this.clientId);

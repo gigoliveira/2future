@@ -7,6 +7,7 @@ const Callback = () => {
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
+        console.log('code', code);
 
         if (code) {
             exchangeCodeForToken(code)
@@ -19,7 +20,7 @@ const Callback = () => {
 
     const exchangeCodeForToken = async (code: string) => {
         try {
-            const response = await fetch("/keycloak/realms/test/protocol/openid-connect/token", {
+            const response = await fetch("http://127.0.0.1:8080/realms/test/protocol/openid-connect/token", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -31,9 +32,10 @@ const Callback = () => {
                     redirect_uri: "http://localhost:5173/callback",
                 }),
             });
-
             const data = await response.json();
             if (data.access_token) {
+                console.log('access_token', localStorage.getItem('access_token'));
+
                 localStorage.setItem("access_token", data.access_token);
             } else {
                 throw new Error("Failed to retrieve access token");

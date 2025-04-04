@@ -29,9 +29,13 @@ mvn clean install
 rodar api
 mvn clean spring-boot:stop
 
-mvn spring-boot:runs
+mvn spring-boot:run
 
 mvn clean spring-boot:run
+
+clean after config Docker 
+mvn clean package -DskipTests
+
 
 java
 mvn archetype:generate -DgroupId=com.keycloak -DartifactId=custom-auth-spi -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
@@ -69,17 +73,41 @@ aqui
 comando para buildar aplicação React
 npm install
 
+comandos para rodar composer
+
 docker compose config
 
 remover composer Docker
 docker-compose down -v
 
+docker compose build
+
 subir composer Docker
 docker compose up -d
 
+docker-compose build --no-cache  
+
+comando para forçar re import realm
+docker compose down -v
+docker compose up --build
+
+docker-compose up --force-recreate
 
 docker exec -it keycloak /opt/keycloak/bin/kcadm.sh update realms/test -s 'cors=true' -s 'corsAllowedOrigins=["http://localhost:5173"]' -s 'corsAllowedMethods=["POST","GET","OPTIONS"]' -s 'corsAllowedHeaders=["X-Konneqt-Token","Content-Type"]'-s 'corsAllowCredentials=true'
 
 
 
 docker exec -t 5c651dcc7347 pg_dump -U user -d keycloakDB > database_dump.sql
+
+
+
+
+
+
+
+
+DOCUMENTAÇÃO
+INSTALAR
+- DOCKER
+- NODE 19
+- 

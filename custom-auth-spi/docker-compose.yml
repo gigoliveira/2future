@@ -3,7 +3,7 @@ version: '3.8'
 services:
   postgres-db:
     image: postgres:latest
-    container_name: postgres-db-${USER}
+    container_name: postgres-db-
     restart: always
     environment:
       POSTGRES_USER: user
@@ -16,7 +16,7 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.1.4
-    container_name: keycloak-${USER}
+    container_name: keycloak
     restart: always
     depends_on:
       - postgres-db
@@ -24,14 +24,14 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://postgres-db-${USER}:5432/keycloakDB
+      KC_DB_URL: jdbc:postgresql://postgres-db-:5432/keycloakDB
       KC_DB_USERNAME: user
       KC_DB_PASSWORD: mudar1234
       KC_HOSTNAME: localhost
       KC_PROXY: edge
       KC_HTTP_CORS: true
       KC_HTTP_CORS_ORIGIN: "*"
-      KC_HTTP_CORS_ALLOWED_ORIGINS: "http://localhost:5173"
+      KC_HTTP_CORS_ALLOWED_ORIGINS: "http://localhost:5173,http://frontend:5173"
       KC_HTTP_CORS_ALLOWED_METHODS: "GET,POST,OPTIONS,PUT,DELETE"
       KC_HTTP_CORS_ALLOWED_HEADERS: "Authorization,Content-Type,Accept,X-Konneqt-Token"
       KEYCLOAK_IMPORT: /opt/keycloak/data/import/test-realm.json
@@ -43,27 +43,21 @@ services:
     command: [ "start-dev", "--import-realm" ]
 
   backend:
-    build:
-      context: ../keycloak-admin-service
-      dockerfile: Dockerfile
-    container_name: keycloak-admin-service-${USER}
-    depends_on:
-      - keycloak
-      - postgres-db
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db-${USER}:5432/keycloakDB
-      SPRING_DATASOURCE_USERNAME: user
-      SPRING_DATASOURCE_PASSWORD: mudar1234
-    ports:
-      - "8081:8081"
-
+      build:
+        context: ../keycloak-admin-service  # Path to Java API project
+        dockerfile: Dockerfile
+      container_name: keycloak-admin-service
+      depends_on:
+        - keycloak
+        - postgres-db
+      ports:
+        - "8081:8081"
+        
   frontend:
     build:
       context: ../keycloak-spi-frontend
       dockerfile: Dockerfile
-    container_name: frontend-${USER}
-    depends_on:
-      - backend
+    container_name: frontend
     ports:
       - "5173:80"  # Host 5173 maps to container 80 (Nginx)
     restart: always
