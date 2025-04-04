@@ -35,7 +35,9 @@ const Profile = () => {
                     <li className="list-group-item bg-dark text-light border-secondary">Family Name: {user?.familyName || "Not Available"}</li>
                 </ul>
             </div>
+            <a className="btn btn-secondary mt-3" href="/">Back</a>
         </section>
+
     );
 };
 

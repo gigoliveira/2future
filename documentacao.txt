@@ -1,0 +1,19 @@
+Estrutura do projeto
+Para solução do Desafio 1 foi desenvolvido um plugin Java SPI de autenticação personalizada que aceite autenticação via token personalizado enviado no header X-Konneqt-Token.
+Para a solução completa foi desenvolvido 4 soluções.
+
+- idp (Idp com plugin SPI / Keycloak Versão 26.1.4))
+- custom-auth-spi (plugin SPI / Java 21)
+- keycloak-spi-frontend (frontend da aplição para realização do login utilizando o novo SPI / React 19.0.0 e Node v18.20.8)
+- keycloak-admin-service (serviço com método que retorna dados do usuário logado / Java 21)
+ 
+
+Como rodar o projeto  
+
+Postman Collection (caso APIs REST forem expostas) 
+
+
+Documentação técnica das customizações realizadas
+Instalação do Keycloak e Postgres executada com docker. após criar clients e configurar, foi criado também um novo flow associado ao API que foi copiado para dentro da pasta /opt/keycloak/providers/ do keycloak para utilização do mesmo na plataforma.
+
+Criado mecanismo simples com caixa de texto e botão para realizar o login personalizado utilizando  X-Konneqt-Token no header. Foi feito tratamento de exchange para recuperar o access_token para poder realizar chamadas ao back end que ficou responsável por retornar os dados do usuário logado.
