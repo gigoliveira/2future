@@ -24,14 +24,18 @@ const Profile = () => {
     }, []);
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl">Profile</h1>
-            <p>Email: {user?.email || "Not Available"}</p>
-            <p>Name: {user?.name || "Not Available"}</p>
-            <p>Preferred Username: {user?.preferredUsername || "Not Available"}</p>
-            <p>Given Name: {user?.givenName || "Not Available"}</p>
-            <p>Family Name: {user?.familyName || "Not Available"}</p>
-        </div>
+        <section className="d-flex flex-column align-items-center">
+            <div className="col-md-3 bg-">
+                <h1 className="pb-3">Profile</h1>
+                <ul className="list-group list-group-flush">
+                    <li className="list-group-item bg-dark text-light border-secondary">Email: {user?.email || "Not Available"}</li>
+                    <li className="list-group-item bg-dark text-light border-secondary">Name: {user?.name || "Not Available"}</li>
+                    <li className="list-group-item bg-dark text-light border-secondary">Preferred Username: {user?.preferredUsername || "Not Available"}</li>
+                    <li className="list-group-item bg-dark text-light border-secondary">Given Name: {user?.givenName || "Not Available"}</li>
+                    <li className="list-group-item bg-dark text-light border-secondary">Family Name: {user?.familyName || "Not Available"}</li>
+                </ul>
+            </div>
+        </section>
     );
 };
 

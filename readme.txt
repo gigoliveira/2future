@@ -29,6 +29,8 @@ mvn clean install
 rodar api
 mvn clean spring-boot:stop
 
+mvn spring-boot:runs
+
 mvn clean spring-boot:run
 
 java
@@ -63,10 +65,11 @@ npx create-react-app keycloak-spi-frontend --template typescript
 instalar rotas
 npm install react-router-dom
 
-
+aqui
 comando para buildar aplicação React
 npm install
 
+docker compose config
 
 remover composer Docker
 docker-compose down -v
