@@ -3,12 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Callback = () => {
     const navigate = useNavigate();
-    const hasRun = useRef(false); // ✅ Prevent duplicate execution
 
     useEffect(() => {
-        if (hasRun.current) return; // ✅ Stop second call
-        hasRun.current = true; // ✅ Mark execution
-
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
 

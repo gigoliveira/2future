@@ -17,7 +17,7 @@ const Login = () => {
 
   return (
     <div>
-      <h1>Welcome</h1>
+      <h1>Login</h1>
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <button onClick={() => handleLogin()}>Login</button>
     </div>
