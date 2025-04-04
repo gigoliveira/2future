@@ -1,19 +1,31 @@
-Estrutura do projeto
-Para solução do Desafio 1 foi desenvolvido um plugin Java SPI de autenticação personalizada que aceite autenticação via token personalizado enviado no header X-Konneqt-Token.
-Para a solução completa foi desenvolvido 4 soluções.
 
-- idp (Idp com plugin SPI / Keycloak Versão 26.1.4))
-- custom-auth-spi (plugin SPI / Java 21)
-- keycloak-spi-frontend (frontend da aplição para realização do login utilizando o novo SPI / React 19.0.0 e Node v18.20.8)
-- keycloak-admin-service (serviço com método que retorna dados do usuário logado / Java 21)
- 
+# Documentação Técnica - Autenticação Personalizada com Keycloak SPI
 
-Como rodar o projeto  
+## Introdução
+Esta documentação descreve a solução desenvolvida para o Desafio 1, cujo objetivo principal foi criar um plugin Java SPI (Service Provider Interface) de autenticação personalizada utilizando o Keycloak, permitindo autenticação por um token customizado enviado via header `X-Konneqt-Token`. 
 
-Postman Collection (caso APIs REST forem expostas) 
+A solução foi construída em um ambiente totalmente containerizado, composta por múltiplos serviços, incluindo frontend, backend e o servidor de autenticação com o plugin customizado.
 
+## Estrutura do Projeto
 
-Documentação técnica das customizações realizadas
-Instalação do Keycloak e Postgres executada com docker. após criar clients e configurar, foi criado também um novo flow associado ao API que foi copiado para dentro da pasta /opt/keycloak/providers/ do keycloak para utilização do mesmo na plataforma.
+Para atingir os objetivos propostos, foram desenvolvidas quatro aplicações principais:
 
-Criado mecanismo simples com caixa de texto e botão para realizar o login personalizado utilizando  X-Konneqt-Token no header. Foi feito tratamento de exchange para recuperar o access_token para poder realizar chamadas ao back end que ficou responsável por retornar os dados do usuário logado.
+- **idp**: Instância do Keycloak com o plugin SPI instalado (Keycloak versão 26.1.4).
+- **custom-auth-spi**: Plugin de autenticação SPI desenvolvido em Java 21.
+- **keycloak-spi-frontend**: Frontend React (v19.0.0) com interface para login via `X-Konneqt-Token`.
+- **keycloak-admin-service**: Serviço backend em Java 21 responsável por retornar dados do usuário logado.
+
+## Postman Collection
+
+curl --request GET \
+  --url http://localhost:8081/api/user/profile \
+  --header 'Authorization: bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJMdDBwRWRESTJHWXIwcGRNTzRCdlRPLTVjMDlZWG5xUUljVGkxQlprcXNrIn0.eyJleHAiOjE3NDM3ODgyMDYsImlhdCI6MTc0Mzc4NzkwNiwiYXV0aF90aW1lIjoxNzQzNzg3OTA2LCJqdGkiOiJmYWRhMjJlZS1iMzdmLTQxMTEtODA4My1lODZiZjdlNWMzMDIiLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA4MC9yZWFsbXMvdGVzdCIsImF1ZCI6ImFjY291bnQiLCJzdWIiOiI0ZTQ4OTI4Zi0wMTFjLTQzMjgtYTgzMy02NTAwMjdjMjEzNGMiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJrb25uZXF0LWNsaWVudCIsInNpZCI6ImY4MzA5ZTg1LTQxYzMtNDA4ZS04OWQ3LTE1MDFlNWMyYmIyZSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsiLyoiLCJodHRwOi8vbG9jYWxob3N0OjUxNzMiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbImRlZmF1bHQtcm9sZXMtdGVzdCIsIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiZGllZ28gYnJhbmRhbyIsInByZWZlcnJlZF91c2VybmFtZSI6ImRpZWdvQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJkaWVnbyIsImZhbWlseV9uYW1lIjoiYnJhbmRhbyIsImVtYWlsIjoiZGllZ29AZ21haWwuY29tIn0.CfkJDai-MjyL8VS3qkcY4m_IyH7PWea3N8lBrx2ABoo6oPvHq_unQe-EMieerbcIkKQ7UlCXl2VwjBH9W5WujYA-rQUwipydlUMPAgfpP321PyLDmBgveBQPklUmGhGqQM4H1xP7oRoyjWf172swDO_LzQ6JyUpWG3l37MhOeEIxNGDiXPeSeN-kFJdR9xk-oRsYj3ezpKuelUxJEnhcEEHk6P9W_hna7cM1uEMoSHRNbREeqbj_Aa0muTgSSHj31HB62c8d3D7MXbBd4Uh6VvCo_Vacxk1upgUWD2AwvB9rjhp8mh1II-peaTjDpD5bbaYwbRF995JaPZikvkWMdA'
+## Customizações Realizadas
+
+- O Keycloak foi instalado e configurado com PostgreSQL via Docker.
+- Após configuração inicial de realm, client e usuários, foi criado um novo flow de autenticação personalizado utilizando o SPI.
+- O arquivo `.jar` do plugin foi copiado para `/opt/keycloak/providers/` e importado no momento da inicialização do Keycloak.
+- Foi criada uma interface simples no frontend contendo um campo para entrada do `X-Konneqt-Token` e um botão para login.
+- No backend, o token é trocado por um `access_token` válido via OpenID Connect, permitindo acesso aos endpoints protegidos.
+- O backend utiliza Spring Security com OAuth2 Resource Server e validação de JWTs via URI de issuer e JWK Set do Keycloak.
+
