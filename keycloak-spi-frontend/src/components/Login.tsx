@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Authenticator } from "../auth/Authenticator";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
+    const [email, setEmail] = React.useState("");
     const authenticator = new Authenticator();
 
     const handleLogin = () => {

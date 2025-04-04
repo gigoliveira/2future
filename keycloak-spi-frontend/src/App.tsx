@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Callback from "./Callback";
 import Profile from "./components/Profile";
 import { Authenticator } from "./auth/Authenticator";
@@ -7,7 +7,6 @@ import React from "react";
 const authenticator = new Authenticator(); // ✅ Move outside to avoid re-instantiation
 
 const Login = () => {
-  const navigate = useNavigate();
   const [email, setEmail] = React.useState("");
 
   const handleLogin = () => {

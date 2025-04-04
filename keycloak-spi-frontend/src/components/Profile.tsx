@@ -1,5 +1,5 @@
 // keycloak-spi-frontend/src/components/Profile.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import getUserProfile from '../services/userService';
 
 interface User {
@@ -11,7 +11,7 @@ interface User {
 }
 
 const Profile = () => {
-    const [user, setUser] = useState<User>({});
+    const [user, setUser] = React.useState<User>({} as User);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
