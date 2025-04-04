@@ -36,6 +36,7 @@ const Profile = () => {
                 </ul>
             </div>
             <a className="btn btn-secondary mt-3" href="/">Back</a>
+            <a className="btn btn-danger mt-3" href="/Logout">Logout</a>
         </section>
 
     );

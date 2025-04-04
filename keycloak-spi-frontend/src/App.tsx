@@ -10,8 +10,14 @@ const Login = () => {
   const [email, setEmail] = React.useState("");
 
   const handleLogin = () => {
-    const authUrl = authenticator.getAuthUrl(email);
-    window.location.href = authUrl;
+    const emailRegex =
+      /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+    } else {
+      const authUrl = authenticator.getAuthUrl(email);
+      window.location.href = authUrl;
+    }
   };
 
   return (
